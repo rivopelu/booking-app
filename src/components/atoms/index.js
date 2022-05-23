@@ -1,4 +1,5 @@
 import HeaderSearch from "./HeaderSearch";
 import MailList from "../atoms/MailList";
 import BtnComp from "./BtnComp";
-export { HeaderSearch, MailList, BtnComp }
+import SearchItem from "./SearchItem";
+export { HeaderSearch, MailList, BtnComp, SearchItem }
