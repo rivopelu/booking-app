@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavbarComp } from './components';
+import { Footer, NavbarComp } from './components';
 import MainRoutes from './config/routes';
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
       <NavbarComp />
 
       <MainRoutes />
+      <Footer />
     </div>
   );
 }
