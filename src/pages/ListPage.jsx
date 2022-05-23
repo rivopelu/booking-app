@@ -1,11 +1,16 @@
 import React from 'react'
-import { HeaderComp } from '../components'
+import { HeaderComp, ListSearch } from '../components'
 
 const ListPage = () => {
     return (
         <>
             <HeaderComp type={'list'} />
-            <div>ListPage</div>
+            <div className="listContainer">
+                <div className="listWrapper">
+                    <ListSearch />
+                    <div className="listResult"></div>
+                </div>
+            </div>
         </>
     )
 }

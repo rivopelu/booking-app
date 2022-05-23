@@ -1,0 +1,15 @@
+.BtnComp {
+    background: $base-color;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    transition: .2s;
+
+    cursor: pointer;
+
+    &:hover {
+        background: rgb(122, 5, 231);
+    }
+
+
+}
