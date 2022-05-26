@@ -1,5 +1,5 @@
 import React from 'react'
-import { HeaderComp, ListSearch, SearchItem } from '../components'
+import { HeaderComp, ListSearch } from '../components'
 
 const ListPage = () => {
     return (
@@ -8,16 +8,7 @@ const ListPage = () => {
             <div className="listContainer">
                 <div className="listWrapper">
                     <ListSearch />
-                    <div className="listResult">
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                    </div>
+
                 </div>
             </div>
         </>
