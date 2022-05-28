@@ -2,12 +2,17 @@ import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } f
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { BtnComp, HeaderComp, MailList } from '../components'
-
+import useFetch from '../hooks/useFetch'
+import { useLocation } from 'react-router-dom'
 const HotelPage = () => {
 
+    const location = useLocation();
+    const id = location.pathname.split('/'[0])
+    console.log(id[2])
     const [slideNumber, setSlideNumber] = useState(0)
     const [open, setOpen] = useState(false);
 
+    const { data, loading, error } = useFetch(`/hotels/find/${id[2]}`)
 
     const handleOpen = (i) => {
         setSlideNumber(i);
@@ -50,54 +55,59 @@ const HotelPage = () => {
         <>
 
             <HeaderComp type="list" />
-            <div className='hotelContainer'>
-                {
-                    open &&
-                    <div className="slider">
-                        <FontAwesomeIcon icon={faCircleXmark} className='close' onClick={() => setOpen(false)} />
-                        <FontAwesomeIcon icon={faCircleArrowLeft} className='arrow' onClick={() => handleMove('l')} />
-                        <div className="sliderWrapper">
-                            <img src={photos[slideNumber].src} alt="" className="slideImg" />
-                        </div>
-                        <FontAwesomeIcon icon={faCircleArrowRight} className='arrow' onClick={() => handleMove('r')} />
+            {
+                loading ? ("loading") : (
+                    <div className='hotelContainer'>
+                        {
+                            open &&
+                            <div className="slider">
+                                <FontAwesomeIcon icon={faCircleXmark} className='close' onClick={() => setOpen(false)} />
+                                <FontAwesomeIcon icon={faCircleArrowLeft} className='arrow' onClick={() => handleMove('l')} />
+                                <div className="sliderWrapper">
+                                    <img src={photos[slideNumber].src} alt="" className="slideImg" />
+                                </div>
+                                <FontAwesomeIcon icon={faCircleArrowRight} className='arrow' onClick={() => handleMove('r')} />
 
-                    </div>
-                }
-
-                <div className="hotelWrapper">
-                    <h1 className="hoteTitle">Grand Hotel</h1>
-                    <div className="hotelAddress">
-                        <FontAwesomeIcon icon={faLocationDot} />
-                        <span>jln. raya manado bitung 12</span>
-                    </div>
-                    <div className="hotelDistace">Excelent location - 500m from center</div>
-                    <div className="hotelPricaHighLight">Book a stay over $112 at this property and get a free airport taxi</div>
-                    <div className="hotelImages">
-
-                        {photos.map((item, i) => (
-
-                            <div key={item.i} className="hotelImgWrapper">
-                                <img onClick={() => handleOpen(i)} src={item.src} alt="" className='hotelImg' />
                             </div>
-                        ))}
-                    </div>
-                    <div className="hotelDetails">
-                        <div className="hotelDetailsTexts">
-                            <button className="bookNow">Reserve or Book Now!</button>
-                            <h1 className="hotelTitle">Stay in the heart of krakow</h1>
-                            <p className="hotelDesc">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque asperiores culpa omnis fuga atque repellat voluptatem perspiciatis similique, maxime recusandae incidunt, cum fugiat libero voluptate accusamus porro temporibus? Tenetur, consectetur? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic ea, tempore cum at placeat nobis temporibus tenetur, neque consequuntur minima alias id debitis minus ab praesentium enim culpa. Expedita nihil minus quo nisi. Adipisci sequi a odit ratione? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis dolores facilis eum culpa dolor magnam quidem repellendus soluta maxime autem. Nostrum nobis recusandae ullam facere magni eligendi, ex architecto blanditiis esse ab deleniti rem. Quaerat voluptatum, optio possimus sit nemo velit voluptatem ratione quia esse, exercitationem necessitatibus, cumque dolores libero modi autem error?
-                            </p>
+                        }
+
+                        <div className="hotelWrapper">
+                            <h1 className="hoteTitle">{data.name}</h1>
+                            <div className="hotelAddress">
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                <span>{data.address}</span>
+                            </div>
+                            <div className="hotelDistace">Excelent location - {data.distance}m from center</div>
+                            <div className="hotelPricaHighLight">Book a stay over IDR-{data.cheapestPrice} at this property and get a free airport taxi</div>
+                            <div className="hotelImages">
+
+                                {photos.map((item, i) => (
+
+                                    <div key={item.i} className="hotelImgWrapper">
+                                        <img onClick={() => handleOpen(i)} src={item.src} alt="" className='hotelImg' />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="hotelDetails">
+                                <div className="hotelDetailsTexts">
+                                    <button className="bookNow">Reserve or Book Now!</button>
+                                    <h1 className="hotelTitle">{data.title}</h1>
+                                    <p className="hotelDesc">
+                                        {data.desc}
+                                    </p>
+                                </div>
+                                <div className="hotelDetailsPrice">
+                                    <h1>Perfect for a 9-night stay</h1>
+                                    <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero at, corrupti odio nisi ab officia veniam, </span>
+                                    <h2><b>IDR-999</b> (9 night) </h2>
+                                    <BtnComp title='Reserve or book now!' />
+                                </div>
+                            </div>
                         </div>
-                        <div className="hotelDetailsPrice">
-                            <h1>Perfect for a 9-night stay</h1>
-                            <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero at, corrupti odio nisi ab officia veniam, </span>
-                            <h2><b>$677</b> (9 night) </h2>
-                            <BtnComp title='Reserve or book now!' />
-                        </div>
                     </div>
-                </div>
-            </div>
+
+                )
+            }
 
             <MailList />
         </>
